@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale-1.0">
+        <title>COVID 19 javascript API - Carlos Carrillo</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    </head>
+    <body>
+       <div class="container">
+           <h1 class="text-center mt-5">COVID 19 Live data</h1>
+       </div>
+       <br><br>
+       <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">DATE</th>
+            <th scope="col">Total Cases</th>
+            <th scope="col">Total Deaths</th>
+            <th scope="col">Total Recovered</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="data">
+            
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <button onclick="refreshData()" class="btn btn-danger btn-block">
+          Refresh Data Now
+      </button>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+            function init(){
+                    var url = "https://api.covid19api.com/summary"
+                    var data = ''
+                    $.get(url,function(data){
+                        console.log(data.Global);
+                            console.log(data.Global.TotalConfirmed);
+                            console.log(data.Global.TotalDeaths);
+                            console.log(data.Global.TotalRecovered);
+                            data = `
+                            <td>${data.Global.Date}</td>
+                            <td>${data.Global.TotalConfirmed}</td>
+                            <td>${data.Global.TotalDeaths}</td>
+                            <td>${data.Global.TotalRecovered}</td>             
+                            `
+                            $("#data").html(data)   
+                    })
+            }
+
+            function refreshData(){
+                clearData() 
+                init()
+            }
+
+            function clearData(){
+                $("#data").empty()                
+            }
+
+            $(document).ready(function(){
+                init() 
+            })
+        </script>
+
+    </body>
+ 
+</html>
